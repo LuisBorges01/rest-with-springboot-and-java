@@ -1,0 +1,77 @@
+
+	
+	@GetMapping()
+	@ResponseStatus(HttpStatus.OK) /*OK*/
+	public List<Person> findAll() {
+		return services.findAllService();
+	}
+	
+	@PutMapping(value ="/{id}")
+	public ResponseEntity<Person> uptade(@PathVariable("id") long id, @RequestBody Person person) { /*SET ADDRESS*/
+		return services.uptadeService(id, person);
+	}
+	
+    @GetMapping("/{id}")
+	public Person findbyId(@PathVariable("id") Long id) throws Exception { /*   OK     */
+    	 return services.findByIdService(id)
+                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado."));	}
+
+    
+    @PostMapping("/{id}/endereco")
+    public Optional<Person> novoEndereço(@PathVariable("id") Long id, @RequestBody List<AddressRequestDTO> endereco)throws Exception{
+    	return Optional.ofNullable(services.enderecoPorPessoa(id, endereco));
+    }
+    
+----SERVICE
+
+	public ResponseEntity<Person> uptadeService(long id, Person personReceived){
+		Optional<Person> personExistis = personRepository.findById(id);
+			
+			Person newPerson = personExistis.get();
+			newPerson.setName(personReceived.getName());
+			newPerson.setBirthDate(personReceived.getBirthDate());
+			newPerson.setEndereco(personReceived.getEndereco());
+			return new ResponseEntity<Person>(personRepository.save(newPerson), HttpStatus.OK);
+	}
+	
+	public Optional<Person> findByIdService(Long id) throws Exception {
+		return personRepository.findById(id);
+		}
+	
+
+	public List<Person> findAllService(){
+		return personRepository.findAll();
+	}	
+	
+	
+	public Person enderecoPorPessoa(Long id, List<AddressRequestDTO> enderecoReceived) {
+		Optional<Person> newAddress = personRepository.findById(id);
+		Person novoEndereco = newAddress.get();
+		novoEndereco.setEndereco(enderecoReceived);
+		return novoEndereco;
+		}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		/*try {
+			findByIdService(id);
+		} catch (Exception e) {
+			System.out.print("ID INVÁLIDO!");
+		}
+		Optional<Person> idPerson = personRepository.findById(id);
+		Person newAddressPerson = idPerson.get();
+		newAddressPerson.setEndereço(endereco);
+		return Optional.ofNullable(newAddressPerson);	*/
+	
+	
+	
+	Raaaaapaiz! Bom saber que tem alguém fazendo... 97 anos?
+	Dona Daniele é uma boa informante de stauts.
+	
+	Aqui é o Luis, tá?! Mocinhaa! Bom saber, está fazendo aniversário, fico feliz de ver pelo menos de longe as pessoas crescendo, evoluindo, amadurencendo, com certerza é uma sensação muito boa. Bom, fico feliz de ter te conhecido e só passei para desejar um feliz aniversário! Que Deus realmente possa continuar te guiando e que você encontre seu chamado assim sendo ferramenta para abençoar muitas vidas. Bomm, feliz aniversário!!!

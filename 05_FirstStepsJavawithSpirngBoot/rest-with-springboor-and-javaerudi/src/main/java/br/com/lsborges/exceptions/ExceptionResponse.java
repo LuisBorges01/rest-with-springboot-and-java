@@ -1,4 +1,5 @@
 package br.com.lsborges.exceptions;
+
 import java.io.Serializable;
 import java.util.Date;
 

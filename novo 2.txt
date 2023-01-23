@@ -1,0 +1,76 @@
+
+	public EntidadeEndereco createAddress(EntidadeEndereco endereco) {
+		return enderecoRepository.save(endereco);
+	}
+	
+	public ResponseEntity<EntidadePessoa> uptadeService(long id, EntidadePessoa personReceived){
+		Optional<EntidadePessoa> personExistis = personRepository.findById(id);
+			
+			EntidadePessoa newPerson = personExistis.get();
+			newPerson.setName(personReceived.getName());
+			newPerson.setBirthDate(personReceived.getBirthDate());
+			//newPerson.setEndereço(personReceived.getEndereço());
+			return new ResponseEntity<EntidadePessoa>(personRepository.save(newPerson), HttpStatus.OK);
+	}
+	
+	public Optional<EntidadePessoa> findByIdService(Long id) throws Exception {
+		return personRepository.findById(id);
+		}
+	
+
+	public List<EntidadePessoa> findAllService(){
+		return personRepository.findAll();
+	}	
+	
+	/*
+	public Person newAddresPerson(Long id, List<Endereco> enderecoReceived) {
+		Optional<Person> newAddress = personRepository.findById(id);
+		Person novoEndereco = newAddress.get();
+		novoEndereco.setEndereço(enderecoReceived);
+		return novoEndereco;
+	}
+	
+	public Person setAddress(Long id, List<Endereco> enderecoReceived) {
+		Optional<Person> newAddress = personRepository.findById(id);
+		Person novoEndereco = newAddress.get();
+		novoEndereco.setEndereço(enderecoReceived);
+		return novoEndereco;
+		}
+	
+	public List<Endereco> addressForPerson(Long id) {
+		Optional<Person> busqueId = personRepository.findById(id);
+		Person address = busqueId.get();
+		return address.getEndereço();
+		}
+	
+	public Endereco principalAddress(Long id) {
+		Optional<Person> busqueId = personRepository.findById(id);
+		Person address = busqueId.get();
+		return address.getMainAddress();
+	}
+		
+		/*try {
+			findByIdService(id);
+		} catch (Exception e) {
+			System.out.print("ID INVÁLIDO!");
+		}
+		Optional<Person> idPerson = personRepository.findById(id);
+		Person newAddressPerson = idPerson.get();
+		newAddressPerson.setEndereço(endereco);
+		return Optional.ofNullable(newAddressPerson);	*/
+	
+}
+
+
+/*******************/
+	@PostMapping("/ed")
+	@ResponseStatus(HttpStatus.CREATED)	
+	public EntidadeEndereco createAddress(EntidadeEndereco person) {
+		return services.createAddress(person);			
+	}
+	
+	@GetMapping()
+	@ResponseStatus(HttpStatus.OK) /*OK*/
+	public List<EntidadePessoa> findAll() {
+		return services.findAllService();
+	}
